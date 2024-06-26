@@ -1,0 +1,598 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block title %}HOME | eTrade{% endblock %}
+
+{% block content %}
+
+    <a href="#top" class="back-to-top" id="backto-top"><i class="fal fa-arrow-up"></i></a>
+    {% include "layouts/header.html" %}
+
+    <main class="main-wrapper">
+        <div style="">
+            <div style="margin:50px ;">
+                <div id="carouselExampleInterval" class=" container carousel  slide" style="height:150"
+                     data-bs-ride="carousel">
+                    <div class="carousel-inner" style="border-radius:15px;">
+                        <div class="carousel-item active carusel_img" data-bs-interval="10000">
+                            <a href="#">
+                                <img width="100%" height="100%"
+                                     src="{% static 'assets/images/product/poster/poster-01.png' %}" alt="">
+                            </a>
+                        </div>
+                        <div class="carousel-item" data-bs-interval="2000">
+                            <a href="#">
+                                <img width="100%" height="100%"
+                                     src="{% static 'assets/images/product/poster/poster-01.png' %}" alt="">
+                            </a>
+                        </div>
+                        <div class=" carousel-item">
+                            <a href="#">
+                                <img width="100%" height="100%"
+                                     src="{% static 'assets/images/product/poster/poster-01.png' %}" alt="">
+                            </a>
+                        </div>
+                    </div>
+                    <button class=" carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button"
+                            data-bs-target="#carouselExampleInterval"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Start Categorie Area  -->
+        <div class="axil-categorie-area bg-color-white axil-section-gapcommon">
+            <div class="container">
+                <div class="section-title-wrapper">
+                    <span class="title-highlighter highlighter-secondary"> <i class="far fa-tags"></i> Categories</span>
+                    <h2 class="title">Browse by Category</h2>
+                </div>
+                <div class="categrie-product-activation slick-layout-wrapper--15 axil-slick-arrow  arrow-top-slide">
+                    {% for c in category %}
+                        <div class="slick-single-layout" style="border-radius:150px ">
+                            <div class="categrie-product" data-sal="zoom-out" data-sal-delay="200"
+                                 data-sal-duration="500">
+                                <a href="{% url 'main:category' c.name %}">
+                                    <img class="img-fluid" style="max-height: 60px;" src="{{ c.image.url }} "
+                                         alt="product categorie">
+                                    <h6 class="cat-title">{{ c.name }}</h6>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!-- End Categorie Area  -->
+
+        <!-- Poster Countdown Area  -->
+        <div class="axil-poster-countdown">
+            <div class="container">
+                <div class="poster-countdown-wrap bg-lighter">
+                    <div class="row">
+                        <div class="col-xl-5 col-lg-6">
+                            <div class="poster-countdown-content">
+                                <div class="section-title-wrapper">
+                                <span class="title-highlighter highlighter-secondary"> <i
+                                        class="fal fa-headphones-alt"></i> Don’t Miss!!</span>
+                                    <h2 class="title">Enhance Your Music Experience</h2>
+                                </div>
+                                <div class="poster-countdown countdown mb--40"></div>
+                                <a href="#" class="axil-btn btn-bg-primary">Check it Out!</a>
+                            </div>
+                        </div>
+                        <div class="col-xl-7 col-lg-6">
+                            <div class="poster-countdown-thumbnail">
+                                <img src="{% static 'assets/images/product/poster/poster-03.png' %}"
+                                     alt="Poster Product">
+                                <div class="music-singnal">
+                                    <div class="item-circle circle-1"></div>
+                                    <div class="item-circle circle-2"></div>
+                                    <div class="item-circle circle-3"></div>
+                                    <div class="item-circle circle-4"></div>
+                                    <div class="item-circle circle-5"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Poster Countdown Area  -->
+
+        <!-- Start Expolre Product Area  -->
+        <div class="axil-product-area bg-color-white axil-section-gap">
+            <div class="container">
+                <div class="section-title-wrapper">
+                <span class="title-highlighter highlighter-primary"> <i class="far fa-shopping-basket"></i> Our
+                    Products</span>
+                    <h2 class="title">Explore our Products</h2>
+                </div>
+                <div
+                        class="explore-product-activation slick-layout-wrapper slick-layout-wrapper--15 axil-slick-arrow arrow-top-slide">
+                    <div class="slick-single-layout">
+                        <div class="row row--15">
+                            {% for p in random|slice:":8" %}
+                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
+                                    <div class="axil-product product-style-one">
+                                        <div class="thumbnail">
+
+                                            {% if p.productimage_set.exists %}
+                                                <a href="{% url 'product:product_detail' p.id %}">
+                                                    <img src="{{ p.productimage_set.all.first.image.url }}"
+                                                         alt="Stickman">
+                                                </a>
+                                            {% else %}
+                                                <a href="{% url 'product:product_detail' p.id %}">
+                                                    <img src="{{ p.productimage_set.all.first.image.url }}"
+                                                         alt="Stickman">
+
+                                                </a>
+                                            {% endif %}
+                                            {% if p.discount %}
+                                                <div class="label-block label-right">
+                                                    <div class="product-badget">{{ p.discount }}% OFF</div>
+                                                </div>
+                                            {% endif %}
+                                            <div class="product-hover-action">
+                                                <ul class="cart-action">
+                                                    <li class="quickview"><a
+                                                            href="{% url 'product:product_detail' p.id %}"><i
+                                                            class="far fa-eye"></i></a>
+                                                    </li>
+                                                    <li class="select-option">
+                                                        <a href="#" class="add-to-cart" data-product-id="{{ p.id }}">
+                                                            Add to Cart
+                                                        </a>
+                                                    </li>
+                                                    <li class="add-to-wishlist wishlist"><a href="#"
+                                                                                            data-product-id="{{ p.id }}"
+                                                                                            class="cartt-btn wishlist-btn cartt-btn"><i
+                                                            class="fa-regular fa-heart"></i></a>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="product-content">
+                                            <div class="inner">
+                                                <div class="product-rating">
+                                            <span class="icon">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </span>
+                                                    <span class="rating-number">(64)</span>
+                                                </div>
+                                                <div class="product-price-variant">
+                                                    <h5 class="title"><a
+                                                            href="{% url 'product:product_detail' p.id %}">{{ p.title|truncatewords:5 }}</a>
+                                                    </h5>
+                                                    <span class="price current-price">{{ p.price }} UZS</span>
+                                                    {# <span class="price old-price">$49.99</span>#}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <!-- End .slick-single-layout -->
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 text-center mt--20 mt_sm--0">
+                        <a href="shop.html" class="axil-btn btn-bg-lighter btn-load-more">View All Products</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- End Expolre Product Area  -->
+
+
+        <!-- Start New Arrivals Product Area  -->
+        <div class="axil-new-arrivals-product-area bg-color-white axil-section-gap pb--0">
+            <div class="container">
+                <div class="product-area pb--50">
+                    <div class="section-title-wrapper">
+                    <span class="title-highlighter highlighter-primary"><i class="far fa-shopping-basket"></i>This
+                        Week’s</span>
+                        <h2 class="title">New Arrivals</h2>
+                    </div>
+                    <div class="new-arrivals-product-activation slick-layout-wrapper--30 axil-slick-arrow  arrow-top-slide">
+                        {% for p in latest %}
+                            <div class="slick-single-layout">
+                                <div class="axil-product product-style-two">
+                                    <div class="thumbnail">
+                                        <a href="{% url 'product:product_detail' p.id %}">
+                                            <img data-sal="zoom-out" data-sal-delay="200"
+                                                 data-sal-duration="500"
+                                                 src="{{ p.productimage_set.all.first.image.url }}"
+                                                 alt="Product Images">
+                                        </a>
+                                        {% if p.discount %}
+                                            <div class="label-block label-right">
+                                                <div class="product-badget">{{ p.discount }}% OFF</div>
+                                            </div>
+                                        {% else %}
+                                        {% endif %}
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="inner">
+                                            <h5 class="title"><a
+                                                    href="{% url 'product:product_detail' p.id %}">{{ p.title }}</a>
+                                            </h5>
+                                            <div class="product-price-variant">
+                                                <!--                                        <span class="price old-price">$40</span>-->
+                                                <span class="price current-price">{{ p.price }}</span>
+                                            </div>
+                                            <div class="product-hover-action">
+                                                <ul class="cart-action">
+                                                    <li class="quickview"><a
+                                                            href="{% url 'product:product_detail' p.id %}"><i
+                                                            class="far fa-eye"></i></a>
+                                                    </li>
+                                                    <li class="select-option "><a href="#" class="add-to-cart"
+                                                                                  data-product-id="{{ p.id }}">Add
+                                                        to Cart</a>
+                                                    </li>
+                                                    <li class="wishlist"><a href="#"
+                                                                            data-product-id="{{ p.id }}"
+                                                                            class="cartt-btn wishlist-btn cartt-btn"><i
+                                                            class="fa-regular fa-heart"></i></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End New Arrivals Product Area  -->
+
+        <!-- Start Most Sold Product Area  -->
+        <div class="axil-most-sold-product axil-section-gap">
+            <div class="container">
+                <div class="product-area pb--50">
+                    <div class="section-title-wrapper section-title-center">
+                        <span class="title-highlighter highlighter-primary"><i class="fas fa-star"></i> Most Sold</span>
+                        <h2 class="title">Most Sold in eTrade Store</h2>
+                    </div>
+                    <div class="row row-cols-xl-2 row-cols-1 row--15">
+                        {% for p in top_selling %}
+
+                            <div class="col">
+                                <div class="axil-product-list">
+                                    <div class="thumbnail">
+                                        <a href="{% url 'product:product_detail' p.id %}">
+                                            <img data-sal="zoom-in" data-sal-delay="10" width="110px"
+                                                 height="100px"
+                                                 data-sal-duration="1500"
+                                                 src="{{ p.productimage_set.all.first.image.url }}"
+                                                 alt="Yantiti Leather Bags">
+                                        </a>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-rating">
+                                    <span class="rating-icon">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fal fa-star"></i>
+                                    </span>
+                                            <span class="rating-number"><span>100+</span> Reviews</span>
+                                        </div>
+                                        <h6 class="product-title"><a
+                                                href="{% url 'product:product_detail' p.id %}">{{ p.title }}</a></h6>
+                                        <div class="product-price-variant">
+                                            <span class="price current-price">{{ p.price }} UZS </span>
+                                            <!--                                        <span class="price old-price">{{p.price}}</span>-->
+                                        </div>
+                                        <div class="product-cart">
+                                            <a href="#" data-product-id="{{ p.id }}" class="cart-btn add-to-cart"><i
+                                                    class="fal fa-shopping-cart"></i></a>
+                                            <a href="#" data-product-id="{{ p.id }}"
+                                               class="cartt-btn wishlist-btn cartt-btn"><i
+                                                    class="fa-regular fa-heart"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Most Sold Product Area  -->
+
+        <!-- Start Why Choose Area  -->
+        <div class="axil-why-choose-area pb--50 pb_sm--30">
+            <div class="container">
+                <div class="section-title-wrapper section-title-center">
+                    <span class="title-highlighter highlighter-secondary"><i class="fal fa-thumbs-up"></i>Why Us</span>
+                    <h2 class="title">Why People Choose Us</h2>
+                </div>
+                <div class="row row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 row--20">
+                    <div class="col">
+                        <div class="service-box">
+                            <div class="icon">
+                                <img src="{% static 'assets/images/icons/service6.png' %}" alt="Service">
+                            </div>
+                            <h6 class="title">Fast &amp; Secure Delivery</h6>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="service-box">
+                            <div class="icon">
+                                <img src="{% static 'assets/images/icons/service7.png' %}" alt="Service">
+                            </div>
+                            <h6 class="title">100% Guarantee On Product</h6>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="service-box">
+                            <div class="icon">
+                                <img src="{% static 'assets/images/icons/service8.png' %}" alt="Service">
+                            </div>
+                            <h6 class="title">24 Hour Return Policy</h6>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="service-box">
+                            <div class="icon">
+                                <img src="{% static 'assets/images/icons/service9.png' %}" alt="Service">
+                            </div>
+                            <h6 class="title">24 Hour Return Policy</h6>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="service-box">
+                            <div class="icon">
+                                <img src="{% static 'assets/images/icons/service10.png' %}" alt="Service">
+                            </div>
+                            <h6 class="title">Next Level Pro Quality</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Why Choose Area  -->
+
+
+        <!-- Start Axil Product Poster Area  -->
+        <div class="axil-poster">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 mb--30">
+                        <div class="single-poster">
+                            <a href="shop.html">
+                                <img src="{% static 'assets/images/product/poster/poster-01.png' %}"
+                                     alt="eTrade promotion poster">
+                                <div class="poster-content">
+                                    <div class="inner">
+                                        <h3 class="title">Rich sound, <br> for less.</h3>
+                                        <span class="sub-title">Collections <i
+                                                class="fal fa-long-arrow-right"></i></span>
+                                    </div>
+                                </div>
+                                <!-- End .poster-content -->
+                            </a>
+                        </div>
+                        <!-- End .single-poster -->
+                    </div>
+                    <div class="col-lg-6 mb--30">
+                        <div class="single-poster">
+                            <a href="shop-sidebar.html">
+                                <img src="{% static 'assets/images/product/poster/poster-02.png' %}"
+                                     alt="eTrade promotion poster">
+                                <div class="poster-content content-left">
+                                    <div class="inner">
+                                        <span class="sub-title">50% Offer In Winter</span>
+                                        <h3 class="title">Get VR <br> Reality Glass</h3>
+                                    </div>
+                                </div>
+                                <!-- End .poster-content -->
+                            </a>
+                        </div>
+                        <!-- End .single-poster -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Axil Product Poster Area  -->
+
+        <!-- Start Axil Newsletter Area  -->
+        <div class="axil-newsletter-area axil-section-gap pt--0">
+            <div class="container">
+                <div class="etrade-newsletter-wrapper bg_image bg_image--5">
+                    <div class="newsletter-content">
+                    <span class="title-highlighter highlighter-primary2"><i
+                            class="fas fa-envelope-open"></i>Newsletter</span>
+                        <h2 class="title mb--40 mb_sm--30">Get weekly update</h2>
+                        <div class="input-group newsletter-form">
+                            <div class="position-relative newsletter-inner mb--15">
+                                <input placeholder="example@gmail.com" type="text">
+                            </div>
+                            <button type="submit" class="axil-btn mb--15">Subscribe</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End .container -->
+        </div>
+        <!-- End Axil Newsletter Area  -->
+
+    </main>
+
+
+    <div class="service-area">
+        <div class="container">
+            <div class="row row-cols-xl-4 row-cols-sm-2 row-cols-1 row--20">
+                <div class="col">
+                    <div class="service-box service-style-2">
+                        <div class="icon">
+                            <img src="{% static 'assets/images/icons/service1.png' %}" alt="Service">
+                        </div>
+                        <div class="content">
+                            <h6 class="title">Fast &amp; Secure Delivery</h6>
+                            <p>Tell about your service.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="service-box service-style-2">
+                        <div class="icon">
+                            <img src="{% static 'assets/images/icons/service2.png' %}" alt="Service">
+                        </div>
+                        <div class="content">
+                            <h6 class="title">Money Back Guarantee</h6>
+                            <p>Within 10 days.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="service-box service-style-2">
+                        <div class="icon">
+                            <img src="{% static 'assets/images/icons/service3.png' %}" alt="Service">
+                        </div>
+                        <div class="content">
+                            <h6 class="title">24 Hour Return Policy</h6>
+                            <p>No question ask.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="service-box service-style-2">
+                        <div class="icon">
+                            <img src="{% static 'assets/images/icons/service4.png' %}" alt="Service">
+                        </div>
+                        <div class="content">
+                            <h6 class="title">Pro Quality Support</h6>
+                            <p>24/7 Live support.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'layouts/footer.html' %}
+    <!-- Header Search Modal End -->
+    <div class="header-search-modal" id="header-search-modal">
+        <button class="card-close sidebar-close"><i class="fas fa-times"></i></button>
+        <div class="header-search-wrap">
+            <div class="card-header">
+                <form action="#">
+                    <div class="input-group">
+                        <input type="search" class="form-control" name="prod-search" id="prod-search"
+                               placeholder="Write Something....">
+                        <button type="submit" class="axil-btn btn-bg-primary"><i class="far fa-search"></i></button>
+                    </div>
+                </form>
+
+            </div>
+            <div class="card-body">
+                <div class="search-result-header">
+                    <h6 class="title">24 Result Found</h6>
+                    <a href="shop.html" class="view-all">View All</a>
+                </div>
+                <div class="psearch-results">
+                    <div class="axil-product-list">
+                        <div class="thumbnail">
+                            <a href="single-product.html">
+                                <img src="{% static 'assets/images/product/electric/product-09.png' %}"
+                                     alt="Yantiti Leather Bags">
+                            </a>
+                        </div>
+                        <div class="product-content">
+                            <div class="product-rating">
+                            <span class="rating-icon">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fal fa-star"></i>
+                            </span>
+                                <span class="rating-number"><span>100+</span> Reviews</span>
+                            </div>
+                            <h6 class="product-title"><a href="single-product.html">Media Remote</a></h6>
+                            <div class="product-price-variant">
+                                <span class="price current-price">$29.99</span>
+                                <span class="price old-price">$49.99</span>
+                            </div>
+                            <div class="product-cart">
+                                <a href="cart.html" class="cart-btn"><i class="fal fa-shopping-cart"></i></a>
+                                <a href="wishlist.html" class="cart-btn"><i class="fal fa-heart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="axil-product-list">
+                        <div class="thumbnail">
+                            <a href="single-product.html">
+                                <img src="{% static 'assets/images/product/electric/product-09.png' %}"
+                                     alt="Yantiti Leather Bags">
+                            </a>
+                        </div>
+                        <div class="product-content">
+                            <div class="product-rating">
+                            <span class="rating-icon">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fal fa-star"></i>
+                            </span>
+                                <span class="rating-number"><span>100+</span> Reviews</span>
+                            </div>
+                            <h6 class="product-title"><a href="single-product.html">Media Remote</a></h6>
+                            <div class="product-price-variant">
+                                <span class="price current-price">$29.99</span>
+                                <span class="price old-price">$49.99</span>
+                            </div>
+                            <div class="product-cart">
+                                <a href="cart.html" class="cart-btn"><i class="fal fa-shopping-cart"></i></a>
+                                <a href="wishlist.html" class="cart-btn"><i class="fal fa-heart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header Search Modal End -->
+
+
+    <!-- Offer Modal Start -->
+    <div class="offer-popup-modal" id="offer-popup-modal">
+        <div class="offer-popup-wrap">
+            <div class="card-body">
+                <button class="popup-close"><i class="fas fa-times"></i></button>
+                <div class="content">
+                    <div class="section-title-wrapper">
+                    <span class="title-highlighter highlighter-primary"> <i class="far fa-shopping-basket"></i> Don’t
+                        Miss!!</span>
+                        <h3 class="title">Best Sales Offer<br> Grab Yours</h3>
+                    </div>
+                    <div class="poster-countdown countdown"></div>
+                    <a href="shop.html" class="axil-btn btn-bg-primary">Shop Now <i class="fal fa-long-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,167 @@
+<!doctype html>
+<html class="no-js" lang="en">
+{% load static %}
+
+
+<!-- Mirrored from new.axilthemes.com/demo/template/etrade/index-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 11 Mar 2024 01:18:15 GMT -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="robots" content="noindex, follow"/>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/images/favicon.png' %}">
+
+    <!-- CSS
+    ============================================ -->
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/vendor/bootstrap.min.css' %} ">
+    <link rel="stylesheet" href="{% static 'assets/css/vendor/font-awesome.css' %} ">
+    <link rel="stylesheet" href="{% static 'assets/css/vendor/flaticon/flaticon.css' %} ">
+    <link rel="stylesheet" href="{% static 'assets/css/vendor/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/vendor/slick-theme.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/vendor/jquery-ui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/vendor/sal.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/vendor/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/vendor/base.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="path/to/your/fontawesome/css/all.min.css">
+    <style>
+        {% block style %}{% endblock%}
+    </style>
+
+</head>
+
+
+<body class="sticky-header newsletter-popup-modal">
+
+{% block content %}
+
+{% endblock %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.add-to-cart').click(function (e) {
+            e.preventDefault();
+            var button = $(this);
+            var product_id = button.data('product-id');
+            var url = '/users/add_to_cart/' + product_id + '/';
+
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: function (response) {
+                    if (response.status === 'added') {
+                        alert('Mahsulot savatga qo\'shildi!');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+
+        $('.remove-from-cart').click(function (e) {
+            e.preventDefault();
+            var button = $(this);
+            var product_id = button.data('product-id');
+            var url = '/users/remove_from_cart/' + product_id + '/';
+
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: function (response) {
+                    if (response.status === 'removed') {
+                        alert('Mahsulot savatdan olib tashlandi!');
+                        window.location.reload();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+    });
+    $(document).ready(function () {
+        // Sahifa yuklandiğida
+        refreshLikes();
+
+        $('.wishlist-btn').click(function (e) {
+            e.preventDefault(); // Standart bosib o'tishni to'xtatish
+            var button = $(this); // Tugmani saqlash
+            var product_id = button.data('product-id');
+            var url = '/users/AddRemoveWishes/' + product_id + '/'; // URL
+            var csrf_token = '{{ csrf_token }}'; // CSRF token
+
+            $.ajax({
+                type: 'GET', // GET metodi
+                url: url,
+                headers: {'X-CSRFToken': csrf_token}, // CSRF token
+                success: function (response) {
+                    refreshLikes(); // Like'larni yangilash
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+
+        // Like'larni yangilovchi funktsiya
+        function refreshLikes() {
+            $('.wishlist-btn').each(function () {
+                var button = $(this); // Tugmani saqlash
+                var product_id = button.data('product-id'); // Mahsulot ID
+                var url = '/users/CheckWishStatus/' + product_id + '/'; // Ma'lumotlarni tekshirish uchun URL
+
+                $.ajax({
+                    type: 'GET', // GET metodi
+                    url: url,
+                    success: function (response) {
+                        if (response.status === 'liked') {
+                            button.find('i').removeClass('fa-regular').addClass('fa-solid ').css('color', '#ff497c'); // Qizil yurakni korsatish
+                        } else {
+                            button.find('i').removeClass('fa-solid ').addClass('fa-regular').css('color', ''); // Bo'sh yurakni korsatish
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+        }
+    });// static/js/cart.js
+
+</script>
+<script src="{% static 'assets/js/vendor/modernizr.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/jquery.js' %}"></script>
+<script src="{% static 'assets/js/vendor/popper.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/slick.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/js.cookie.js' %}"></script>
+<script src="{% static 'assets/js/vendor/jquery-ui.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/jquery.ui.touch-punch.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/sal.js' %}"></script>
+<script src="{% static 'assets/js/vendor/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/imagesloaded.pkgd.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/isotope.pkgd.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/counterup.js' %}"></script>
+<script src="{% static 'assets/js/vendor/waypoints.min.js' %}"></script>
+<script src="{% static 'assets/js/main.js' %}"></script>
+<script src="{% static 'assets/js/index.js' %}"></script>
+
+
+</body>
+
+
+<!-- Mirrored from new.axilthemes.com/demo/template/etrade/index-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 11 Mar 2024 01:18:46 GMT -->
+
+</html>

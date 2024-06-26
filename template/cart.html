@@ -1,0 +1,482 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block title %}Shop | eTrade{% endblock %}
+
+{% block content %}
+    <!--[if lte IE 9]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a
+            href="https://browsehappy.com/">upgrade
+        your browser</a> to improve your experience and security.</p>
+    <![endif]-->
+    <a href="#top" class="back-to-top" id="backto-top"><i class="fal fa-arrow-up"></i></a>
+    <!-- Start Header -->
+    {% include 'layouts/header.html' %}    <!-- End Header -->
+
+    <main class="main-wrapper">
+
+        <!-- Start Cart Area  -->
+        <div class="axil-product-cart-area axil-section-gap">
+            <div class="container">
+                <div class="axil-product-cart-wrap">
+                    <div class="product-table-heading">
+                        <h4 class="title">Your Cart</h4>
+                        <a href="#" class="cart-clear">Clear Shoping Cart</a>
+                    </div>
+                    {% if is_empty %}
+                        <h3 style="text-align:center; margin:50px 0">Hozirda hech qanday mahsulot yo'q</h3>
+                    {% else %}
+                        <div class="row mb--100">
+                            <div class="col-xl-5 col-lg-7 offset-xl-7 offset-lg-5">
+                                <div class="axil-order-summery mt--80">
+                                    <h5 class="title mb--20">Order Summary</h5>
+                                    <div class="summery-table-wrap">
+                                        <table class="table summery-table mb--30">
+                                            <tbody>
+                                            <tr class="order-subtotal">
+                                                <td>Subtotal</td>
+                                                <td>$117.00</td>
+                                            </tr>
+                                            <tr class="order-shipping">
+                                                <td>Shipping</td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <input type="radio" id="radio1" name="shipping" checked>
+                                                        <label for="radio1">Free Shippping</label>
+                                                    </div>
+                                                    <div class="input-group">
+                                                        <input type="radio" id="radio2" name="shipping">
+                                                        <label for="radio2">Local: $35.00</label>
+                                                    </div>
+                                                    <div class="input-group">
+                                                        <input type="radio" id="radio3" name="shipping">
+                                                        <label for="radio3">Flat rate: $12.00</label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="order-tax">
+                                                <td>State Tax</td>
+                                                <td>$8.00</td>
+                                            </tr>
+                                            <tr class="order-total">
+                                                <td>Total</td>
+                                                <td class="order-total-amount">$125.00</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <a href="checkout.html" class="axil-btn btn-bg-primary checkout-btn">Process to
+                                        Checkout</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table axil-product-table axil-cart-table mb--40">
+                                <thead>
+                                <tr>
+                                    <th scope="col" class="product-remove"></th>
+                                    <th scope="col" class="product-thumbnail">Product</th>
+                                    <th scope="col" class="product-title"></th>
+                                    <th scope="col" class="product-price">Price</th>
+                                    <th scope="col" class="product-quantity">Quantity</th>
+                                    <th scope="col" class="product-subtotal">Subtotal</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for item in cart_items %}
+                                    <tr>
+                                        <td data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal3" class="product-remove"><a href="#"
+                                                                                                     class="remove-wishlist"><i
+                                                class="fal fa-times"></i></a>
+                                        </td>
+                                        <td class="product-thumbnail"><a
+                                                href="{% url 'product:product_detail' item.product.id %}"><img
+                                                src="{{ item.product.productimage_set.all.first.image.url }}"
+                                                alt="Digital Product"></a>
+                                        </td>
+                                        <td class="product-title"><a
+                                                href="{% url 'product:product_detail' item.product.id %}">{{ item.product.title }}</a>
+                                        </td>
+                                        <td class="product-price" data-title="Price">{{ item.product.price }}
+                                        </td>
+                                        <td class="product-quantity" data-title="Qty">
+                                            <div class="pro-qty">
+                                                <input type="number" class="quantity-input" value="{{ item.quantity }}">
+                                            </div>
+                                        </td>
+                                        <td class="product-subtotal"
+                                            data-title="Subtotal">
+                                            {% comment %}
+                                            {{ item.quantity|multiply:item.product.price }}
+                                            {% endcomment %}
+                                        </td>
+                                        <div class="modal fade" id="deleteModal3" tabindex="-1"
+                                             aria-labelledby="deleteModalLabel3" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="deleteModalLabel3">Tasdiqlash</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Siz haqiqatdan ham bu productni o'chirib yubormoqchimisiz?
+                                                    </div>
+                                                    <div class="modal-footer div_modal">
+                                                        <ul class="product-action d-flex-center ">
+                                                            <li class="add-to-cart">
+                                                                <form action="{% url 'users:remove_from_cart' item.product.id %}"
+                                                                      method="post">
+                                                                    {% csrf_token %}
+                                                                    <button type="submit"
+                                                                            data-product-id="{{ item.product.id }}"
+                                                                            class=" axil-btn remove-from-cart"
+                                                                            style="background-color:#ff497c; color:white;"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#deleteModal">Ha
+                                                                    </button>
+                                                                </form>
+
+                                                            </li>
+                                                            <li class="add-to-cart">
+                                                                <button type="button" data-bs-dismiss="modal"
+                                                                        class="axil-btn btn-bg-primary"
+                                                                        aria-label="Close">Yoq
+                                                                </button>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
+                    <div class="cart-update-btn-area">
+                        <div class="input-group product-cupon">
+                            <input placeholder="Enter coupon code" type="text">
+                            <div class="product-cupon-btn">
+                                <button type="submit" class="axil-btn btn-outline">Apply</button>
+                            </div>
+                        </div>
+                        <div class="update-btn">
+                            <a href="#" class="axil-btn btn-outline">Update Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Cart Area  -->
+
+    </main>
+
+
+    <div class="service-area">
+        <div class="container">
+            <div class="row row-cols-xl-4 row-cols-sm-2 row-cols-1 row--20">
+                <div class="col">
+                    <div class="service-box service-style-2">
+                        <div class="icon">
+                            <img src="{% static 'assets/images/icons/service1.png' %}" alt="Service">
+                        </div>
+                        <div class="content">
+                            <h6 class="title">Fast &amp; Secure Delivery</h6>
+                            <p>Tell about your service.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="service-box service-style-2">
+                        <div class="icon">
+                            <img src="{% static 'assets/images/icons/service2.png' %}" alt="Service">
+                        </div>
+                        <div class="content">
+                            <h6 class="title">Money Back Guarantee</h6>
+                            <p>Within 10 days.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="service-box service-style-2">
+                        <div class="icon">
+                            <img src="{% static 'assets/images/icons/service3.png' %}" alt="Service">
+                        </div>
+                        <div class="content">
+                            <h6 class="title">24 Hour Return Policy</h6>
+                            <p>No question ask.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="service-box service-style-2">
+                        <div class="icon">
+                            <img src="{% static 'assets/images/icons/service4.png' %}" alt="Service">
+                        </div>
+                        <div class="content">
+                            <h6 class="title">Pro Quality Support</h6>
+                            <p>24/7 Live support.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Start Footer Area  -->
+    {% include 'layouts/footer.html' %}
+    <!-- End Footer Area  -->
+
+    <!-- Product Quick View Modal Start -->
+    <div class="modal fade quick-view-product" id="quick-view-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i
+                            class="far fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <div class="single-product-thumb">
+                        <div class="row">
+                            <div class="col-lg-7 mb--40">
+                                <div class="row">
+                                    <div class="col-lg-10 order-lg-2">
+                                        <div class="single-product-thumbnail product-large-thumbnail axil-product thumbnail-badge zoom-gallery">
+                                            <div class="thumbnail">
+                                                <img src="{% static 'assets/iimages/product/product-big-01.png' %}"
+                                                     alt="Product Images">
+                                                <div class="label-block label-right">
+                                                    <div class="product-badget">20% OFF</div>
+                                                </div>
+                                                <div class="product-quick-view position-view">
+                                                    <a href="{% static 'assets/iimages/product/product-big-01.png' %}"
+                                                       class="popup-zoom">
+                                                        <i class="far fa-search-plus"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="thumbnail">
+                                                <img src="{% static 'assets/iimages/product/product-big-02.png' %}"
+                                                     alt="Product Images">
+                                                <div class="label-block label-right">
+                                                    <div class="product-badget">20% OFF</div>
+                                                </div>
+                                                <div class="product-quick-view position-view">
+                                                    <a href="{% static 'assets/iimages/product/product-big-02.png' %}"
+                                                       class="popup-zoom">
+                                                        <i class="far fa-search-plus"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="thumbnail">
+                                                <img src="{% static 'assets/iimages/product/product-big-03.png' %}"
+                                                     alt="Product Images">
+                                                <div class="label-block label-right">
+                                                    <div class="product-badget">20% OFF</div>
+                                                </div>
+                                                <div class="product-quick-view position-view">
+                                                    <a href="{% static 'assets/iimages/product/product-big-03.png' %}"
+                                                       class="popup-zoom">
+                                                        <i class="far fa-search-plus"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 order-lg-1">
+                                        <div class="product-small-thumb small-thumb-wrapper">
+                                            <div class="small-thumb-img">
+                                                <img src="{% static 'assets/iimages/product/product-thumb/thumb-08.png' %}"
+                                                     alt="thumb image">
+                                            </div>
+                                            <div class="small-thumb-img">
+                                                <img src="{% static 'assets/iimages/product/product-thumb/thumb-07.png' %}"
+                                                     alt="thumb image">
+                                            </div>
+                                            <div class="small-thumb-img">
+                                                <img src="{% static 'assets/iimages/product/product-thumb/thumb-09.png' %}"
+                                                     alt="thumb image">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 mb--40">
+                                <div class="single-product-content">
+                                    <div class="inner">
+                                        <div class="product-rating">
+                                            <div class="star-rating">
+                                                <img src="{% static 'assets/iimages/icons/rate.png' %}"
+                                                     alt="Rate Images">
+                                            </div>
+                                            <div class="review-link">
+                                                <a href="#">(<span>1</span> customer reviews)</a>
+                                            </div>
+                                        </div>
+                                        <h3 class="product-title">Serif Coffee Table</h3>
+                                        <span class="price-amount">$155.00 - $255.00</span>
+                                        <ul class="product-meta">
+                                            <li><i class="fal fa-check"></i>In stock</li>
+                                            <li><i class="fal fa-check"></i>Free delivery available</li>
+                                            <li><i class="fal fa-check"></i>Sales 30% Off Use Code: MOTIVE30</li>
+                                        </ul>
+                                        <p class="description">In ornare lorem ut est dapibus, ut tincidunt nisi
+                                            pretium.
+                                            Integer ante est, elementum eget magna. Pellentesque sagittis dictum libero,
+                                            eu
+                                            dignissim tellus.</p>
+
+                                        <div class="product-variations-wrapper">
+
+                                            <!-- Start Product Variation  -->
+                                            <div class="product-variation">
+                                                <h6 class="title">Colors:</h6>
+                                                <div class="color-variant-wrapper">
+                                                    <ul class="color-variant mt--0">
+                                                        <li class="color-extra-01 active"><span><span
+                                                                class="color"></span></span>
+                                                        </li>
+                                                        <li class="color-extra-02"><span><span
+                                                                class="color"></span></span>
+                                                        </li>
+                                                        <li class="color-extra-03"><span><span
+                                                                class="color"></span></span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <!-- End Product Variation  -->
+
+                                            <!-- Start Product Variation  -->
+                                            <div class="product-variation">
+                                                <h6 class="title">Size:</h6>
+                                                <ul class="range-variant">
+                                                    <li>xs</li>
+                                                    <li>s</li>
+                                                    <li>m</li>
+                                                    <li>l</li>
+                                                    <li>xl</li>
+                                                </ul>
+                                            </div>
+                                            <!-- End Product Variation  -->
+
+                                        </div>
+
+                                        <!-- Start Product Action Wrapper  -->
+                                        <div class="product-action-wrapper d-flex-center">
+                                            <!-- Start Quentity Action  -->
+                                            <div class="pro-qty"><input type="text" value="1"></div>
+                                            <!-- End Quentity Action  -->
+
+                                            <!-- Start Product Action  -->
+                                            <ul class="product-action d-flex-center mb--0">
+                                                <li class="add-to-cart"><a href="cart.html"
+                                                                           class="axil-btn btn-bg-primary">Add
+                                                    to Cart</a></li>
+                                                <li class="wishlist"><a href="wishlist.html"
+                                                                        class="axil-btn wishlist-btn"><i
+                                                        class="far fa-heart"></i></a></li>
+                                            </ul>
+                                            <!-- End Product Action  -->
+
+                                        </div>
+                                        <!-- End Product Action Wrapper  -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Product Quick View Modal End -->
+
+    <!-- Header Search Modal End -->
+    <div class="header-search-modal" id="header-search-modal">
+        <button class="card-close sidebar-close"><i class="fas fa-times"></i></button>
+        <div class="header-search-wrap">
+            <div class="card-header">
+                <form action="#">
+                    <div class="input-group">
+                        <input type="search" class="form-control" name="prod-search" id="prod-search"
+                               placeholder="Write Something....">
+                        <button type="submit" class="axil-btn btn-bg-primary"><i class="far fa-search"></i></button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-body">
+                <div class="search-result-header">
+                    <h6 class="title">24 Result Found</h6>
+                    <a href="shop.html" class="view-all">View All</a>
+                </div>
+                <div class="psearch-results">
+                    <div class="axil-product-list">
+                        <div class="thumbnail">
+                            <a href="single-product.html">
+                                <img src="{% static 'assets/images/product/electric/product-09.png' %}"
+                                     alt="Yantiti Leather Bags">
+                            </a>
+                        </div>
+                        <div class="product-content">
+                            <div class="product-rating">
+                                <span class="rating-icon">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fal fa-star"></i>
+                            </span>
+                                <span class="rating-number"><span>100+</span> Reviews</span>
+                            </div>
+                            <h6 class="product-title"><a href="single-product.html">Media Remote</a></h6>
+                            <div class="product-price-variant">
+                                <span class="price current-price">$29.99</span>
+                                <span class="price old-price">$49.99</span>
+                            </div>
+                            <div class="product-cart">
+                                <a href="cart.html" class="cart-btn"><i class="fal fa-shopping-cart"></i></a>
+                                <a href="wishlist.html" class="cart-btn"><i class="fal fa-heart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="axil-product-list">
+                        <div class="thumbnail">
+                            <a href="single-product.html">
+                                <img src="{% static 'assets/images/product/electric/product-09.png' %}"
+                                     alt="Yantiti Leather Bags">
+                            </a>
+                        </div>
+                        <div class="product-content">
+                            <div class="product-rating">
+                                <span class="rating-icon">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fal fa-star"></i>
+                            </span>
+                                <span class="rating-number"><span>100+</span> Reviews</span>
+                            </div>
+                            <h6 class="product-title"><a href="single-product.html">Media Remote</a></h6>
+                            <div class="product-price-variant">
+                                <span class="price current-price">$29.99</span>
+                                <span class="price old-price">$49.99</span>
+                            </div>
+                            <div class="product-cart">
+                                <a href="cart.html" class="cart-btn"><i class="fal fa-shopping-cart"></i></a>
+                                <a href="wishlist.html" class="cart-btn"><i class="fal fa-heart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header Search Modal End -->
+
+
+
+{% endblock %}

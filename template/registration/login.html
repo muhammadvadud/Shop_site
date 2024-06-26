@@ -1,0 +1,49 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Category | eTrade{% endblock %}
+
+{% block content %}
+
+<div class="axil-signin-area">
+
+    <!-- Start Header -->
+    <div class="signin-header">
+        <div class="row align-items-center">
+            <div class="col-sm-4">
+                <a href="{% url 'main:index'%}" class="site-logo"><img src="{% static 'assets/images/logo/logo.png' %}" alt="logo"></a>
+            </div>
+            <div class="col-sm-8">
+                <div class="singin-header-btn">
+                    <p>Not a member?</p>
+                    <a href="{% url 'users:signup' %}" class="axil-btn btn-bg-secondary sign-up-btn">Sign Up Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Header -->
+
+    <div class="row">
+        <div class="col-xl-4 col-lg-6">
+            <div class="axil-signin-banner bg_image bg_image--9">
+                <h3 class="title">We Offer the Best Products</h3>
+            </div>
+        </div>
+        <div class="col-lg-6 offset-xl-2">
+            <div class="axil-signin-form-wrap">
+                <div class="axil-signin-form">
+                    <h3 class="title">Sign in to eTrade.</h3>
+                    <p class="b2 mb--55">Enter your detail below</p>
+                    <form class="" method="post">{% csrf_token %}
+                        <div class="form_ishkal">
+                            {{form|crispy}}
+                        </div>
+                        <button type="submit" class="axil-btn btn-bg-primary ">Sign In</button>
+                        <a href="{% url 'users:signup'%}" class="forgot-btn">I haven't account!</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

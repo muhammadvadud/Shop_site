@@ -1,0 +1,32 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block title %}My Profile | eTrade{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="axil-signin-area">
+    <div class="row">
+        <div class="col-xl-4 col-lg-6">
+            <div class="axil-signin-banner bg_image bg_image--9">
+                <h3 class="title">We Offer the Best Products</h3>
+            </div>
+        </div>
+        <div class="col-lg-6 offset-xl-2">
+            <div class="axil-signin-form-wrap">
+                <div class="axil-signin-form">
+                    <h3 class="title">Sign in to eTrade.</h3>
+                    <p class="b2 mb--55">Enter your detail below</p>
+                    <form class="" enctype="multipart/form-data" method="post">{%csrf_token%}
+                        <div class="form_ishkal">
+                            {{form|crispy}}
+                        </div>
+                        <button type="submit" class="axil-btn btn-bg-primary ">Qo'shish</button>
+                        <a href="{% url 'main:index'%}" class="forgot-btn">Orqaga qaytish</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
