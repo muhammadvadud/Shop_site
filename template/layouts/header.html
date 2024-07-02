@@ -176,10 +176,10 @@
                                             <a href="#">Language</a>
                                         </li>
                                         <li>
-                                            <a href="{% url 'password_change' %}">Change_password</a>
+                                            <a href="{% url 'account_change_password' %}">Change_password</a>
                                         </li>
                                         <li>
-                                            <form method="post" action="{% url 'logout' %}">
+                                            <form method="post" action="{% url 'account_logout' %}">
                                                 {% csrf_token %}
                                                 <div class="login-btn">
                                                     <button class="axil-btn btn-bg-primary" type="submit">Log Out
@@ -190,7 +190,7 @@
                                     </ul>
                                 {% else %}
                                     <div class="login-btn">
-                                        <a href="{% url 'login' %}" class="axil-btn btn-bg-primary">Login</a>
+                                        <a href="{% url 'account_login' %}" class="axil-btn btn-bg-primary">Login</a>
                                     </div>
                                     <div class="reg-footer text-center">No account yet? <a
                                             href="{% url 'users:signup' %}"

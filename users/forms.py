@@ -1,6 +1,20 @@
 from django import forms
 from .models import CustomUser
 from django.contrib.auth.forms import UserCreationForm
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Div, Field, Submit
+
+
+class LoginForm(forms.Form):
+    class Meta:
+        model = CustomUser
+        fields = ('email', 'password')
+
+    def __init__(self, *args, **kwargs):
+        super(LoginForm, self).__init__(*args, **kwargs)
+        # Add placeholder and class in input
+        self.fields['email'].widget.attrs.update({'class': 'input', 'placeholder': 'Email@gmail.com'})
+        self.fields['password'].widget.attrs.update({'class': 'password', 'placeholder': 'Parol'})
 
 
 class SignupForm(UserCreationForm):
@@ -26,4 +40,3 @@ class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ('first_name', 'last_name', 'username', 'email', 'phone_nubmer', 'tg_username',)
-
