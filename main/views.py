@@ -18,9 +18,16 @@ def get_latest_products():
 def get_random_products():
     count = Product.objects.aggregate(count=Count('id'))['count']
     # Agar yozuvlar soni 10 dan kam bo'lsa, u holda mavjud yozuvlar sonini tanlang
-    random_count = min(count, 10)
+    random_count = min(count, 20)
     random_indices = random.sample(range(count), random_count)
     return [Product.objects.all()[i] for i in random_indices]
+
+
+# def load_more_products(request):
+#     offset = int(request.GET.get('offset', 0))
+#     limit = 20
+#     products = Product.objects.all()[offset:offset + limit]
+#     return render(request, 'products_list.html', {'products': products})
 
 
 def get_all_product_categories():

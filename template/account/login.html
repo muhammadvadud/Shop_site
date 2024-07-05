@@ -12,6 +12,9 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
     }
+    body{
+    background-color: #4070f4;
+    }
 
     .container {
     height: 100vh;
@@ -172,14 +175,15 @@
     }
 
     .facebook-icon,
-    img.google-img {
+    i.google-img {
     position: absolute;
     top: 50%;
     left: 15px;
     transform: translateY(-50%);
+    margin: auto;
     }
 
-    img.google-img {
+    i.google-img {
     height: 20px;
     width: 20px;
     object-fit: cover;
@@ -209,28 +213,28 @@
                 <header>Login</header>
                 <form action="#" method="post">{% csrf_token %}
                     <div class="field input-field">
-                        <input type="text" name="login" placeholder="Sizning Email manzilingiz" id="floatingInput"
+                        <input type="text" name="login" placeholder="Username" id="floatingInput"
                                autocomplete="email"
                                maxlength="320" class="input">
                     </div>
                     <div class="field input-field">
                         <input type="password" name="password"
-                               class="password" placeholder="Sizning parolingiz">
+                               class="password" placeholder="Parol">
                         <i class='bx bx-hide eye-icon'></i>
                     </div>
                     <br>
-                    Remember me: <input id="id_remember_menu" name="remember" type="checkbox">
-                    <div class="form-link">
-                        <a href="#" class="forgot-pass">Forgot password?</a>
-                    </div>
 
+                    <div class="form-link">
+                        <a href="{% url 'account_reset_password' %}" class="forgot-pass">Forgot password?</a>
+                    </div>
                     <div class="field button-field">
                         <button type="submit">Login</button>
                     </div>
                 </form>
 
                 <div class="form-link">
-                    <span>Don't have an account? <a href="#" class="link signup-link">Signup</a></span>
+                    <span>Don't have an account? <a href="{% url 'account_signup' %}"
+                                                    class="link signup-link">Signup</a></span>
                 </div>
             </div>
 
@@ -245,7 +249,7 @@
 
             <div class="media-options">
                 <a href="#" class="field google">
-                    <img src="#" alt="" class="google-img">
+                    <i class="fa-brands fa-google google-img"></i>
                     <span>Login with Google</span>
                 </a>
             </div>
@@ -255,7 +259,6 @@
         <!-- Signup Form -->
 
     </section>
-
     <!-- JavaScript -->
 {% endblock %}
 {% block js %}

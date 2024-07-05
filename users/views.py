@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 
 class SignupView(UserPassesTestMixin, View):
     def get(self, request):
-        return render(request, 'registration/signup.html', {'form': SignupForm()})
+        return render(request, 'account/signup.html', {'form': SignupForm()})
 
     def post(self, request):
         form = SignupForm(data=request.POST)
@@ -26,7 +26,7 @@ class SignupView(UserPassesTestMixin, View):
         if user is not None:
             login(self.request, user)
             return redirect(reverse('main:index'))
-        return render(request, 'registration/signup.html', {'form': form})
+        return render(request, 'account/signup.html', {'form': form})
 
     def test_func(self):
         user = self.request.user

@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import SignupView, ProfileView, AddRemoveWishesView, WishesView, CheckWishStatusView, cart_view, \
     add_to_cart, merge_cart, remove_from_cart
+# from allauth.account.views import EmailConfirmView
 
 app_name = 'users'
 urlpatterns = [
