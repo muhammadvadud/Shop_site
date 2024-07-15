@@ -118,8 +118,8 @@
                         class="explore-product-activation slick-layout-wrapper slick-layout-wrapper--15 axil-slick-arrow arrow-top-slide">
                     <div class="slick-single-layout">
                         <div class="row row--15">
-                            {% for p in random|slice:":8" %}
-                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
+                            {% for p in random|slice:":40" %}
+                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30 product-item">
                                     <div class="axil-product product-style-one">
                                         <div class="thumbnail">
 
@@ -147,7 +147,8 @@
                                                             class="far fa-eye"></i></a>
                                                     </li>
                                                     <li class="select-option">
-                                                        <a href="#" class="add-to-cart" data-product-id="{{ p.id }}">
+                                                        <a href="#" class="add-to-cart"
+                                                           data-product-id="{{ p.id }}">
                                                             Add to Cart
                                                         </a>
                                                     </li>
@@ -264,7 +265,7 @@
                 </div>
             </div>
         </div>
-        <!-- End New Arrivals Product Area  -->
+
 
         <!-- Start Most Sold Product Area  -->
         <div class="axil-most-sold-product axil-section-gap">

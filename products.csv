@@ -1,0 +1,3 @@
+author,category,title,description,price,address,phone_number,tg_username,discount,sales,image_urls
+author_username,category_name,Product1,Description for product 1,10.99,Address 1,1234567890,tg_username_1,10,5,http://example.com/image1.jpg;http://example.com/image2.jpg
+author_username,category_name,Product2,Description for product 2,15.49,Address 2,1234567890,tg_username_2,15,10,http://example.com/image3.jpg;http://example.com/image4.jpg

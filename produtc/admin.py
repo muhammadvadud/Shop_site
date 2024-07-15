@@ -16,6 +16,8 @@ admin.site.register(Product, ProductAdmin)
 admin.site.register(Category)
 admin.site.register(ProductImage)
 admin.site.unregister(Group)
+
+
 @admin.register(ProductReview)
 class ProductRatingAdmin(admin.ModelAdmin):
     list_display = ['id', 'user', 'product', 'rating', 'date']

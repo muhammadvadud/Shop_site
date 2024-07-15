@@ -197,11 +197,11 @@
                                     {% if user.is_superuser %}
                                         <div class="row container " style="margin:100px;">
                                             <ul class="product-action d-flex-center mb--0">
-                                                <li class="add-to-cart"><a
+                                                <li class=""><a
                                                         href="{% url 'product:product_update' product.id %}"
                                                         class="axil-btn btn-bg-primary">Update</a></li>
-                                                <li class="add-to-cart">
-                                                    <button type="button" class="axil-btn "
+                                                <li class="">
+                                                    <button type="button" class="axil-btn"
                                                             style="background-color:red; color:white;"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#deleteModal">Delete
@@ -225,7 +225,7 @@
                                                         </div>
                                                         <div class="modal-footer div_modal">
                                                             <ul class="product-action d-flex-center ">
-                                                                <li class="add-to-cart">
+                                                                <li class="">
                                                                     <form method="post">{% csrf_token %}
                                                                         <button type="submit" class="axil-btn "
                                                                                 style="background-color:red; color:white;"
@@ -235,7 +235,7 @@
                                                                         </button>
                                                                     </form>
                                                                 </li>
-                                                                <li class="add-to-cart">
+                                                                <li class="">
                                                                     <button type="button" data-bs-dismiss="modal"
                                                                             class="axil-btn btn-bg-primary"
                                                                             aria-label="Close">Yoq
@@ -873,16 +873,12 @@
                                             <div class="product-variation">
                                                 <h6 class="title">Colors:</h6>
                                                 <div class="color-variant-wrapper">
-                                                    <ul class="color-variant mt--0">
-                                                        <li class="color-extra-01 active"><span><span
-                                                                class="color"></span></span>
-                                                        </li>
-                                                        <li class="color-extra-02"><span><span
-                                                                class="color"></span></span>
-                                                        </li>
-                                                        <li class="color-extra-03"><span><span
-                                                                class="color"></span></span>
-                                                        </li>
+                                                    <ul class="range-variant">
+                                                        <li>xs</li>
+                                                        <li>s</li>
+                                                        <li>m</li>
+                                                        <li>l</li>
+                                                        <li>xl</li>
                                                     </ul>
                                                 </div>
                                             </div>

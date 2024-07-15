@@ -11,6 +11,7 @@ Rating = (
 
 )
 
+
 class Category(models.Model):
     name = models.CharField(max_length=150)
     image = models.ImageField(upload_to='category_image/')
